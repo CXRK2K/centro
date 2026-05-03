@@ -1,0 +1,18 @@
+# Workarounds for Rust compile on memory-constrained Windows machines.
+#
+# windows-sys 0.61 with the union of features pulled in by Tauri 2 generates
+# enough FFI bindings that:
+#  1) rustc's default 8 MB thread stack overflows during compile, producing
+#     `STATUS_STACK_BUFFER_OVERRUN` on Windows. 32 MB is the standard escape
+#     hatch (same value rustc itself uses for bootstrap).
+#  2) running N rustc processes in parallel exhausts the Windows page file
+#     during the windows-sys compile spike. Cap parallelism at 2.
+#
+# After the first successful compile, the artifacts are cached and subsequent
+# builds are fast and lightweight. You can bump jobs back up once the heavy
+# crates are in the cargo cache.
+[build]
+jobs = 2
+
+[env]
+RUST_MIN_STACK = "67108864"

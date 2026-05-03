@@ -28,7 +28,8 @@ sha2 = "0.10"
 rand = "0.8"
 keyring = "3"
 reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
-tokio = { version = "1", features = ["full"] }
+# Only need tokio::time for the OAuth loopback flow. "full" pulls ~30 deps we don't use.
+tokio = { version = "1", features = ["time", "rt", "macros"] }
 
 [features]
 default = ["custom-protocol"]
