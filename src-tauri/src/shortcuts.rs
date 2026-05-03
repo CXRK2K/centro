@@ -9,7 +9,7 @@ const DEFAULT_MODS: Modifiers = Modifiers::CONTROL.union(Modifiers::SHIFT);
 
 const DEFAULT_KEY: Code = Code::Space;
 
-pub fn register_default(app: &AppHandle) -> tauri::Result<()> {
+pub fn register_default(app: &AppHandle) -> Result<(), Box<dyn std::error::Error>> {
     let shortcut = Shortcut::new(Some(DEFAULT_MODS), DEFAULT_KEY);
     let app_handle = app.clone();
     app.global_shortcut()
